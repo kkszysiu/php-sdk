@@ -579,7 +579,11 @@ class Facebook
    */
   protected function _oauthRequest($url, $params) {
     if (!isset($params['access_token'])) {
-      $params['access_token'] = $this->getAccessToken();
+        if($params['method'] == 'users.getStandardInfo' && $params['fields'] == 'credit_balance') {
+            $params['access_token'] = $this->getAppId() .'|'. $this->getApiSecret();
+        } else {
+            $params['access_token'] = $this->getAccessToken();
+        }
     }
 
     // json_encode all params values that are not strings
